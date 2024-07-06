@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gymapp/Splash.dart';
+import 'package:gymapp/otp.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,7 +22,7 @@ class MyApp extends StatelessWidget {
         ),
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(),
+      home: Splash(),
     );
   }
 }
@@ -77,7 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     LengthLimitingTextInputFormatter(10),
                   ],
                   decoration: InputDecoration(
-                    hintText: 'Ex:- nimshekha04' ,
+                    hintText: 'Ex:- 12345999' ,
                     hintStyle: TextStyle(fontStyle: FontStyle.italic, fontFamily: 'poppins'),
                     filled: true,
                     fillColor: Color(0xFFEFEFEF),
@@ -154,12 +156,18 @@ class _MyHomePageState extends State<MyHomePage> {
                   height: 150,
                 ),
                 InkWell(
+
                   onTap: canGetOtp
                       ? () {
                     String uniid = uniidController.text;
                     String phoneNumber = phnnoController.text;
                     print('Uni ID: $uniid');
                     print('Phone Number: $phoneNumber');
+
+                    Navigator.push(context,
+                        MaterialPageRoute(
+                            builder: (context)=> Otppage(uniidController.text.toString())));
+
                     // Add further logic here (e.g., API call, validation)
                   }
                       : null,

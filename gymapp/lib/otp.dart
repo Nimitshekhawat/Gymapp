@@ -1,51 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
+import 'package:gymapp/createprofile.dart';
+import 'package:gymapp/main.dart';
+import 'package:gymapp/richtext.dart';
 
-void main() {
-  runApp(const MyApp());
-}
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
 
+
+class Otppage extends StatefulWidget {
+
+   var memberid;
+    Otppage( this.memberid);
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Gym app',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        textTheme: TextTheme(
-          headlineMedium: TextStyle(color: Colors.black, fontFamily: 'Koulen', fontSize: 20),
-          headlineSmall: TextStyle(color: Colors.black, fontFamily: 'poppins'),
-        ),
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(),
-    );
-  }
+  _OtpState createState() => _OtpState();
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+class _OtpState extends State<Otppage> {
 
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
 
-class _MyHomePageState extends State<MyHomePage> {
   TextEditingController uniidController = TextEditingController();
   TextEditingController phnnoController = TextEditingController();
   bool canGetOtp = false;
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Verificaiton',style: TextStyle(fontFamily: 'Koulen',fontSize: 24),),
         leading: InkWell(
               onTap: (){
-                print('previous page');
+                Navigator.pop(context,MaterialPageRoute(builder: (context)=> MyHomePage()));
               },
             child: Image.asset('assets/images/backarrow.png')),
 
@@ -84,30 +70,37 @@ class _MyHomePageState extends State<MyHomePage> {
                             numberOfFields: 4,
                             borderColor: Color(0xFF512DA8),
                             showCursor: true,
+                            autoFocus: false,
                             textStyle: TextStyle(fontSize: 30),
                             //set to true to show as box or false to show as dash
                             showFieldAsBox: false,
                             enabledBorderColor: Colors.black,
-                            focusedBorderColor: Colors.black,
+                            // keyboardType: TextInputType.number ,
                             //runs when a code is typed in
-                            onCodeChanged: (String code) {
-                              //handle validation or checks here
-                            },
+                            // onCodeChanged: (String code) {
+                            //   //handle validation or checks here
+                            // },
                             //runs when every textfield is filled
                             onSubmit: (String verificationCode){
-                              showDialog(
-                                  context: context,
-                                  builder: (context){
-                                    return AlertDialog(
-                                      title: Text("Verification Code"),
-                                      content: Text('Code entered is $verificationCode'),
-                                    );
-                                  }
-                              );
+                              if(verificationCode =='1234'){
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=> Createprofile(widget.memberid) ));
+                              }
+                              else{
+                                verificationCode='';
+                                showDialog(
+                                    context: context,
+                                    builder: (context){
+                                      return AlertDialog(
+                                        title: Text(" Invalid Otp",style: TextStyle(color: Colors.red),),
+                                        content: Text('Try Again'),
+                                      );
+                                    }
+                                );
+                              }
                             }, // end onSubmit
                           ),
                           SizedBox(
-                            height: 30,
+                            height: 20,
                           ),
                           Center(
                               child: Text('Don’t Receive code? ',style: TextStyle(fontFamily: 'Roboto',fontSize:14 ),
@@ -134,4 +127,6 @@ class _MyHomePageState extends State<MyHomePage> {
         )
     );
   }
+
+
 }

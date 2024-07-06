@@ -1,39 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gymapp/home1.dart';
+import 'package:gymapp/richtext.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+class Createprofile extends StatefulWidget {
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Gym app',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        textTheme: TextTheme(
-          headlineMedium: TextStyle(color: Colors.black, fontFamily: 'Koulen', fontSize: 20),
-          headlineSmall: TextStyle(color: Colors.black, fontFamily: 'poppins'),
-        ),
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
-
+  final dynamic memberidfromlogin;
+  Createprofile(this.memberidfromlogin);
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _profile createState() => _profile();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _profile extends State<Createprofile> {
+
   TextEditingController firstname = TextEditingController();
   TextEditingController lastname = TextEditingController();
   TextEditingController mobilenumber = TextEditingController();
@@ -126,8 +106,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.only(left: 20, top: 18),
-                  child: Text(
-                    'Member ID',
+                  child: Text('Member Id ${widget.memberidfromlogin}'
+                    ,
                     style: Theme.of(context).textTheme.headlineMedium!.copyWith(fontSize: 16, color: Color(0xFFCCCCCC)),
                   ),
                 ),
@@ -161,7 +141,37 @@ class _MyHomePageState extends State<MyHomePage> {
                   String hgt = height.text;
                   String wt = weight.text;
 
-                  print('First name: $firstName, Last name: $lastName, Phone number: $phnNumber, Email: $emailAddress, DOJ: $doj, DOB: $dob, Gender: $gen, Height: $hgt, Weight: $wt');
+                  if (firstName.isNotEmpty &&
+                      lastName.isNotEmpty
+                      // phnNumber.isNotEmpty &&
+                      // emailAddress.isNotEmpty &&
+                      // doj.isNotEmpty &&
+                      // dob.isNotEmpty &&
+                      // gen.isNotEmpty &&
+                      // hgt.isNotEmpty &&
+                      // wt.isNotEmpty)
+                     ){
+                    // All fields are filled, navigate to the next page
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => home1() ),
+                    );
+                  } else {
+                    // Handle case where not all fields are filled
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: Text('Incomplete Form'),
+                        content: Text('Please fill in all fields to continue.'),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: Text('OK'),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
                 },
                 child: Container(
                   width: double.infinity,

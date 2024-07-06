@@ -1,105 +1,90 @@
+import 'dart:ui';
+
+import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:gymapp/Widgets/Orangebtn.dart';
 
-void main() {
-  runApp(const MyApp());
-}
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
 
+class Temprory extends StatefulWidget{
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        textTheme: TextTheme(
-          headlineMedium: TextStyle(color: Colors.black, fontFamily: 'Koulen', fontSize: 50),
-          headlineSmall: TextStyle(color: Colors.black, fontFamily: 'poppins'),
-        ),
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(),
-    );
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key});
-
-  inccounter(bool msg){
-    dynamic num=0;
-    if(msg==true){
-      num++;
-    }
+  State<StatefulWidget> createState() {
+    return tempState();
   }
 
+}
+class tempState extends State<Temprory>{
+
+
+
+  Map<int, Color> Colorsmap = {
+    0: Colors.white,
+    1: Colors.red,
+    2: Colors.blue,
+    3: Colors.green,
+  };
+  void changecolor(int value){
+    setState(() {
+     rang= value;
+    });
+  }
+
+  late int rang; // Assigning the color from Colorsmap to rang
+
+   @override
+  void initState() {
+    super.initState();
+    rang= 0;
+  }
   @override
   Widget build(BuildContext context) {
-    var arraycolors=[
-      Colors.red,
-      Colors.yellow,
-      Colors.green,
-      Colors.blue,
-      Colors.red,
-      Colors.yellow,
-      Colors.green,
-      Colors.blue,
 
-    ];
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Grid View'),
+        title: Text('Statefull widget'),
       ),
-      // body: GridView.count(crossAxisCount: 4,
-      // mainAxisSpacing: 11,
-      // crossAxisSpacing: 11,
-      // children: [
-      //   Container(color: arraycolors[0]),
-      //   Container(color: arraycolors[1]),
-      //   Container(color: arraycolors[2]),
-      //   Container(color: arraycolors[3]),
-      //   Container(color: arraycolors[4]),
-      //   Container(color: arraycolors[5]),
-      //   Container(color: arraycolors[6]),
-      //   Container(color: arraycolors[7]),
-      // ],),
 
-      // body: GridView.extent(maxCrossAxisExtent:  100,
-      // mainAxisSpacing: 11,
-      // crossAxisSpacing: 11,
-      // children: [
-      //   Container(color: arraycolors[0]),
-      //     Container(color: arraycolors[1]),
-      //     Container(color: arraycolors[2]),
-      //     Container(color: arraycolors[3]),
-      //     Container(color: arraycolors[4]),
-      //     Container(color: arraycolors[5]),
-      //     Container(color: arraycolors[6]),
-      //     Container(color: arraycolors[7]),
-      //
-      // ],),
-
-
-      body: RichText(
-          text: TextSpan(
-              style: Theme.of(context).textTheme.headlineMedium,
+      body: Container(
+        height: double.infinity,
+        width: double.infinity,
+        color: Colorsmap[rang],
+        child: Center(
+          child: Container(
+            height: 400,
+            width: 500,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                TextSpan(text: 'Nimit'),
-                TextSpan(text: 'Shekhawat',
-                    style: TextStyle(
-                        color: Colors.red,
-                        fontFamily: 'Koulen',
-                        fontSize: 40
-                    ))
-              ]
-          )
+
+                Orangebtn(btnname: 'red',
+                  color: Colorsmap[rang],
+                  textStyle: TextStyle(fontFamily: 'Koulen',fontSize: 40),
+                  callback: (){
+                    changecolor(1);
+                },),
+                Orangebtn(btnname: 'blue',
+                  color: Colorsmap[rang],
+                  textStyle: TextStyle(fontFamily: 'Koulen',fontSize: 40),
+                  callback: (){
+                    changecolor(2);
+                  },),
+
+                Orangebtn(btnname: 'green',
+
+                  textStyle: TextStyle(fontFamily: 'Koulen',fontSize: 40),
+                  callback: (){
+                    changecolor(3);
+                  },
+                  color: Colorsmap[rang],),
+              ],
+            ),
+          ),
+        ),
       ),
-
-
-
 
     );
   }
+
 }
